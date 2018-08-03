@@ -6,11 +6,11 @@ describe('StrKey', function() {
     this.unencoded        = this.unencodedBuffer.toString();
     this.accountIdEncoded = keypair.publicKey();
     this.seedEncoded      = StellarBase.StrKey.encodeEd25519SecretSeed(this.unencodedBuffer);
-  })
+  });
 
   after(function() {
     StellarBase.Network.use(null);
-  })
+  });
 
   describe('#decodeCheck', function() {
     it("decodes correctly", function() {

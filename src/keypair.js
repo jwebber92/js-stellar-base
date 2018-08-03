@@ -34,6 +34,7 @@ export class Keypair {
       keys.secretKey = Buffer.from(keys.secretKey);
 
       if (keys.secretKey.length != 32) {
+        // console.log(`secretKey length = ${keys.secretKey.length} not 32`);
         throw new Error("secretKey length is invalid");
       }
 
@@ -85,6 +86,7 @@ export class Keypair {
    * @returns {Keypair}
    */
   static fromRawEd25519Seed(rawSeed) {
+    // console.log(Buffer.from(rawSeed).length);
     return new this({type: 'ed25519', secretKey: rawSeed});
   }
 
@@ -96,6 +98,8 @@ export class Keypair {
     if (Network.current() === null) {
       throw new Error("No network selected. Use `Network.use`, `Network.usePublicNetwork` or `Network.useTestNetwork` helper methods to select network.");
     }
+    // console.log(Buffer.from(Network.current().networkId()).length);
+    // console.log(Network.current().networkId());
     return this.fromRawEd25519Seed(Network.current().networkId());
   }
 

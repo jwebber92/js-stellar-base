@@ -35,10 +35,10 @@ describe('Keypair.fromSecret', function() {
 
   it("throw an error if the arg isn't strkey encoded as a seed", function() {
 
-    expect(() => StellarBase.Keypair.fromSecret("hel0")).to.throw();
-    expect(() => StellarBase.Keypair.fromSecret("SBWUBZ3SIPLLF5CCXLWUB2Z6UBTYAW34KVXOLRQ5HDAZG4ZY7MHNBWJ1")).to.throw();
-    expect(() => StellarBase.Keypair.fromSecret("masterpassphrasemasterpassphrase")).to.throw();
-    expect(() => StellarBase.Keypair.fromSecret("gsYRSEQhTffqA9opPepAENCr2WG6z5iBHHubxxbRzWaHf8FBWcu")).to.throw();
+    expect(() => StellarBase.Keypair.fromSecret("hel0")).to.throw()
+    expect(() => StellarBase.Keypair.fromSecret("SBWUBZ3SIPLLF5CCXLWUB2Z6UBTYAW34KVXOLRQ5HDAZG4ZY7MHNBWJ1")).to.throw()
+    expect(() => StellarBase.Keypair.fromSecret("masterpassphrasemasterpassphrase")).to.throw()
+    expect(() => StellarBase.Keypair.fromSecret("gsYRSEQhTffqA9opPepAENCr2WG6z5iBHHubxxbRzWaHf8FBWcu")).to.throw()
 
   });
 

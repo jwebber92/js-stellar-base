@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import {createHash} from "blake2";
 
 describe('Transaction', function() {
 
@@ -67,7 +68,7 @@ describe('Transaction', function() {
     let env = tx.toEnvelope();
 
     let rawSig = env.signatures()[0].signature();
-    let verified = signer.verify(tx.hash(), rawSig);
+    let verified = signer.verify(tx.sigHash(), rawSig);
     expect(verified).to.equal(true);
   });
 
@@ -78,7 +79,8 @@ describe('Transaction', function() {
     let amount      = "2000";
 
     let preimage = crypto.randomBytes(64);
-    let hash = crypto.createHash('sha256').update(preimage).digest();
+    // let hash = crypto.createHash('sha256').update(preimage).digest();
+    let hash = createHash('blake2b', {digestLength: 32}).update(preimage).digest();
 
     let tx = new StellarBase.TransactionBuilder(source)
                 .addOperation(StellarBase.Operation.payment({destination, asset, amount}))

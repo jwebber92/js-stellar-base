@@ -1,6 +1,5 @@
 import {default as xdr} from "./generated/stellar-xdr_generated";
 import {UnsignedHyper} from "js-xdr";
-import {hash} from "./hashing";
 import {Keypair} from "./keypair";
 import {Account} from "./account";
 import {Operation} from "./operation";
@@ -8,7 +7,6 @@ import {Transaction} from "./transaction";
 import {Memo} from "./memo";
 import BigNumber from 'bignumber.js';
 import clone from "lodash/clone";
-import map from "lodash/map";
 import isUndefined from "lodash/isUndefined";
 
 let BASE_FEE     = 100; // Stroops

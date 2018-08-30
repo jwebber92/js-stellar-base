@@ -1,4 +1,4 @@
-import {xdr, hash} from "./index";
+import {xdr} from "./index";
 
 import {StrKey} from "./strkey";
 import {Operation} from "./operation";
@@ -7,7 +7,9 @@ import {Memo} from "./memo";
 import map from "lodash/map";
 import each from "lodash/each";
 import isString from 'lodash/isString';
-import crypto from "crypto";
+// import crypto from "crypto";
+import {createHash} from "blake2";
+import {hash} from "./hashing";
 
 let MIN_LEDGER   = 0;
 let MAX_LEDGER   = 0xFFFFFFFF; // max uint32
@@ -64,7 +66,7 @@ export class Transaction {
    * @returns {void}
    */
   sign(...keypairs) {
-    let txHash = this.hash();
+    let txHash = this.sigHash();
     let newSigs = each(keypairs, kp => {
       let sig = kp.signDecorated(txHash);
       this.signatures.push(sig);
@@ -86,8 +88,14 @@ export class Transaction {
     }
 
     let signature = preimage;
-    let hash = crypto.createHash('sha256').update(preimage).digest();
-    let hint = hash.slice(hash.length - 4);
+    console.log(`STELLAR-BASE: preimage = ${preimage.toString('hex')}`);
+    // let hashX = crypto.createHash('sha256').update(preimage).digest();
+    // let hashX = createHash('blake2b', {digestLength: 32}).update(preimage).digest();
+    let hashX = hash(preimage);
+    console.log("Fixed a few bits!");
+    console.log(`STELLAR-BASE: hash = ${hashX.toString('hex')}`);
+    let hint = hashX.slice(hashX.length - 4);
+    console.log(`STELLAR-BASE: hint = ${hint.toString('hex')}`);
     this.signatures.push(new xdr.DecoratedSignature({hint, signature}));
   }
 
@@ -95,7 +103,7 @@ export class Transaction {
    * Returns a hash for this transaction, suitable for signing.
    * @returns {Buffer}
    */
-  hash() {
+  sigHash() {
     return hash(this.signatureBase());
   }
 

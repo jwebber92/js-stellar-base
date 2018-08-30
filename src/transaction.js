@@ -7,8 +7,6 @@ import {Memo} from "./memo";
 import map from "lodash/map";
 import each from "lodash/each";
 import isString from 'lodash/isString';
-// import crypto from "crypto";
-import {createHash} from "blake2";
 import {hash} from "./hashing";
 
 let MIN_LEDGER   = 0;
@@ -80,10 +78,10 @@ export class Transaction {
    */
   signHashX(preimage) {
     /* Expect preimage to be a string */
-    // if (isString(preimage)) {
-    //   console.log(`Converting preimage string to Buffer`);
-    //   preimage = Buffer.from(preimage, "hex");
-    // }
+    if (isString(preimage)) {
+      preimage = Buffer.from(preimage, "hex");
+      console.log(`Converted preimage string to Buffer: ${preimage}`);
+    }
 
     if (preimage.length > 64) {
       throw new Error('preimage cannnot be longer than 64 bytes');

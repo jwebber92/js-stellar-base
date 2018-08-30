@@ -79,21 +79,20 @@ export class Transaction {
    * @returns {void}
    */
   signHashX(preimage) {
-    if (isString(preimage)) {
-      preimage = Buffer.from(preimage, "hex");
-    }
+    /* Expect preimage to be a string */
+    // if (isString(preimage)) {
+    //   console.log(`Converting preimage string to Buffer`);
+    //   preimage = Buffer.from(preimage, "hex");
+    // }
 
     if (preimage.length > 64) {
       throw new Error('preimage cannnot be longer than 64 bytes');
     }
 
     let signature = preimage;
-    console.log(`STELLAR-BASE: preimage = ${preimage.toString('hex')}`);
-    // let hashX = crypto.createHash('sha256').update(preimage).digest();
-    // let hashX = createHash('blake2b', {digestLength: 32}).update(preimage).digest();
+    console.log(`STELLAR-BASE: preimage string = ${preimage.toString('hex')}`);
     let hashX = hash(preimage);
-    console.log("Fixed a few bits!");
-    console.log(`STELLAR-BASE: hash = ${hashX.toString('hex')}`);
+    console.log(`STELLAR-BASE: hash string = ${hashX.toString('hex')}`);
     let hint = hashX.slice(hashX.length - 4);
     console.log(`STELLAR-BASE: hint = ${hint.toString('hex')}`);
     this.signatures.push(new xdr.DecoratedSignature({hint, signature}));
